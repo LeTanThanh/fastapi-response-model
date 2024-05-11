@@ -47,3 +47,13 @@ async def create_users(user: Annotated[UserIn, Body(embed = True)]):
 @app.post("/users", response_model = UserOut)
 async def create_user(user: Annotated[UserIn, Body(embed = True)]):
   return user
+
+# response_model or Return Type
+
+"""
+In this case, because the two models are different, if we annotated the function return type as UserOut, the editor and tools would complain that we are returning an invalid type, as those are different classes.
+
+That's why in this example we have to declare it in the response_model parameter.
+
+... but continue reading below to see how to overcome that.
+"""
