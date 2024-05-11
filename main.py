@@ -1,5 +1,9 @@
 from fastapi import FastAPI
 from fastapi import Body
+from fastapi import Query
+from fastapi import Response
+from fastapi.responses import RedirectResponse
+from fastapi.responses import JSONResponse
 
 from typing import Annotated
 from typing import Any
@@ -65,3 +69,11 @@ That's why in this example we have to declare it in the response_model parameter
 @app.post("/users", response_model = BaseUser)
 async def create_user(user: Annotated[UserIn, Body(embed = True)]) -> BaseUser:
   return user
+
+# Return a Response Directly
+@app.get("/portal")
+async def get_portal(teleport: Annotated[bool, Query()]) -> Response:
+  if teleport:
+    return RedirectResponse(url = "http://www.youtube.com/watch?v=dQw4w9WgXcQ")
+
+  return JSONResponse(content = {"message": "Here's your interdimensional portal."})
