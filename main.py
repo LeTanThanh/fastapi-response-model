@@ -99,3 +99,13 @@ async def read_items() -> list[Item]:
     {"name": "Baz", "description": None, "price": 50.2, "tax": 10.5, "tags": []},
   ]
   return items
+
+# response_model_include and response_model_exclude
+@app.get("/item_names", response_model = list[Item], response_model_include={"name"})
+async def read_item_names() -> list[Item]:
+  items = [
+    {"name": "Foo", "price": 50.2},
+    {"name": "Bar", "description": "The bartenders", "price": 62, "tax": 20.2},
+    {"name": "Baz", "description": None, "price": 50.2, "tax": 10.5, "tags": []}
+  ]
+  return items
