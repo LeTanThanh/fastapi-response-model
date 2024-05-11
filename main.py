@@ -34,12 +34,14 @@ async def read_items() -> list[Item]:
 async def create_item(item: Annotated[Item, Body()]) -> Any:
   return item
 
+"""
 @app.get("/items", response_model=list[Item])
 async def read_items() -> Any:
   return [
     Item(name = "Portal Gun", price=42.0),
     Item(name = "Plumbus", price=32.0)
   ]
+"""
 
 # Return the same input data
 """
@@ -87,3 +89,13 @@ async def get_portal(teleport: Annotated[bool, Query()]) -> Response | dict:
     return RedirectResponse(url = "http://www.youtube.com/watch?v=dQw4w9WgXcQ")
 
   return {"message": "Here's your interdimensional portal."}
+
+# Use the response_model_exclude_unset parameter
+@app.get("/items", response_model = list[Item], response_model_exclude_unset = True)
+async def read_items() -> list[Item]:
+  items = [
+    {"name": "Foo", "price": 50.2},
+    {"name": "Bar", "description": "The bartenders", "price": 62, "tax": 20.2},
+    {"name": "Baz", "description": None, "price": 50.2, "tax": 10.5, "tags": []},
+  ]
+  return items
