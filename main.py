@@ -5,8 +5,9 @@ from typing import Annotated
 from typing import Any
 
 from models.item import Item
+
+from models.user import BaseUser
 from models.user import UserIn
-from models.user import UserOut
 
 app = FastAPI()
 
@@ -44,9 +45,11 @@ async def create_users(user: Annotated[UserIn, Body(embed = True)]):
 """
 
 # Add an output model
+"""
 @app.post("/users", response_model = UserOut)
 async def create_user(user: Annotated[UserIn, Body(embed = True)]):
   return user
+"""
 
 # response_model or Return Type
 
@@ -57,3 +60,8 @@ That's why in this example we have to declare it in the response_model parameter
 
 ... but continue reading below to see how to overcome that.
 """
+
+# Return Type and Data Filtering
+@app.post("/users", response_model = BaseUser)
+async def create_user(user: Annotated[UserIn, Body(embed = True)]) -> BaseUser:
+  return user
