@@ -71,9 +71,19 @@ async def create_user(user: Annotated[UserIn, Body(embed = True)]) -> BaseUser:
   return user
 
 # Return a Response Directly
+"""
 @app.get("/portal")
 async def get_portal(teleport: Annotated[bool, Query()]) -> Response:
   if teleport:
     return RedirectResponse(url = "http://www.youtube.com/watch?v=dQw4w9WgXcQ")
 
   return JSONResponse(content = {"message": "Here's your interdimensional portal."})
+"""
+
+# Disable Response Model
+@app.get("/portal", response_model = None)
+async def get_portal(teleport: Annotated[bool, Query()]) -> Response | dict:
+  if teleport:
+    return RedirectResponse(url = "http://www.youtube.com/watch?v=dQw4w9WgXcQ")
+
+  return {"message": "Here's your interdimensional portal."}
